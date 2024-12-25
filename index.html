@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+<div class="weather-dashboard">
+    <header class="weather-dashboard__header">
+        <input type="text" class="weather__search" placeholder="Search for cities">
+    </header>
+
+    <div class="weather-dashboard__main">
+        <section class="weather-dashboard__section">
+            <h2 class="weather-dashboard__city"></h2>
+            <p class="weather-dashboard__description">Humidity: <strong></strong></p>
+            <h1 class="weather-dashboard__temp"></h1>
+        </section>
+
+        <section class="weather-dashboard__section weather-dashboard__section--forecast">
+           
+        </section>
+
+        <section class="weather__list2 weather-dashboard__section--details">
+           <div class="details__item">
+               <p>Wind</p>
+               <p class="wind-speed"><strong></strong></p>
+           </div>
+           
+           <div class="details__item">
+               <p>Pressure</p>
+               <p class="pressure"><strong></strong></p>
+           </div>
+           
+           <div class="details__item">
+               <p>Sunrise</p>
+               <p class="sunrise"><strong></strong></p>
+           </div>
+           
+           <div class="details__item">
+               <p>Sunset</p>
+               <p class="sunset"><strong></strong></p>
+           </div>
+           <div class="details__item">
+               <p>UV Index</p>
+               <p class="uv-index"><strong></strong></p>
+           </div>   
+           <div class="details__item">
+               <p >Feels like</p>
+               <p class="feels-like"><strong></strong></p>
+           </div>
+           <div class="details__item">
+               <p>Visibility</p>
+               <p class="visibility"><strong></strong></p>
+           </div>
+           <div class="details__item">
+            <p>Wind Degree</p>
+            <p class="wind-degree"><strong></strong></p>
+        </div>
+      
+        </section>
+
+        <section class="weather__list weather-dashboard__weekly">
+            <h3>7-DAY FORECAST</h3>
+           
+        </section>
+    </div>
+</div>
+
+
+
+<script src="./scripts/app.js"></script>
+</body>
+</html>
