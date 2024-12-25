@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.weatherapi.com/v1/forecast.json?key=c1bdf339354a49f197d130248242412&q=Tashkent&days=7&aqi=yes&alerts=yes\'';
+const BASE_URL = 'https://api.weatherapi.com/v1/forecast.json?key=c1bdf339354a49f197d130248242412&q=Palestine&days=7&aqi=yes&alerts=yes\'';
 const searchInputEl = document.querySelector('.weather-dashboard__search');
 const mainEl = document.querySelector('.weather-dashboard__main');
 const forecastEl = document.querySelector('.weather-dashboard__section--forecast');
