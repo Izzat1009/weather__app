@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.weatherapi.com/v1/forecast.json?key=c1bdf339354a49f197d130248242412&q=Palestine&days=7&aqi=yes&alerts=yes\'';
+
 const searchInputEl = document.querySelector('.weather-dashboard__search');
 const mainEl = document.querySelector('.weather-dashboard__main');
 const forecastEl = document.querySelector('.weather-dashboard__section--forecast');
@@ -7,42 +7,42 @@ const weeklyEl = document.querySelector('.weather-dashboard__weekly');
 const tempEl = document.querySelector('.weather-dashboard__temp');
 const cityEl = document.querySelector('.weather-dashboard__city');
 const descEl = document.querySelector('.weather-dashboard__description strong');
-const windSpeedEl = document.querySelector('.wind-speed strong');
-const pressureEl = document.querySelector('.pressure strong');
-const sunriseEl = document.querySelector('.sunrise strong');
-const sunsetEl = document.querySelector('.sunset strong');
-const uvIndexEl = document.querySelector('.uv-index strong');
-const feelsLikeEl = document.querySelector('.feels-like strong');
-const visibilityEl = document.querySelector('.visibility strong');
-const windDegreeEl = document.querySelector('.wind-degree strong');
+const searchEL = document.querySelector('.weather-dashboard__search');
+const searchForm = document.querySelector('.weather-dashboard__form');
+
 
 async function fetchData(city) {
-    const response = await fetch(BASE_URL)
+    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=c1bdf339354a49f197d130248242412&q=${city}&days=7&aqi=yes&alerts=yes`)
     
     response 
         .json()
         .then(res => {
             createWeatherCards(res)
             createWeeklyCards(res)
+            createDetailsCards(res)
             console.log(res);
             tempEl.textContent = `${res.current.temp_c}°`;
             cityEl.textContent = res.location.name;
             descEl.textContent = res.current.humidity;
-            windSpeedEl.textContent = res.current.wind_kph + ' km/h';
-            pressureEl.textContent = res.current.pressure_mb + ' mb';
-            sunriseEl.textContent = res.forecast.forecastday[0].astro.sunrise;
-            sunsetEl.textContent = res.forecast.forecastday[0].astro.sunset;
-            uvIndexEl.textContent = res.current.uv;
-            feelsLikeEl.textContent = res.current.feelslike_c + '°';
-            visibilityEl.textContent = res.current.vis_km + ' km';
-            windDegreeEl.textContent = res.current.wind_degree + '°';
+           
             
         })
         .catch(err => console.log(err))
 }
 window.onload = () => {
-    fetchData()
-}
+    const savedCity = localStorage.getItem('city') || 'Tashkent';
+    fetchData(savedCity);
+    searchInputEl.value = savedCity; 
+};
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const city = searchInputEl.value;
+    if (city) {
+        localStorage.setItem('city', city);
+        fetchData(city);
+        searchInputEl.value = '';
+    }
+});
 
 function createWeatherCards(data) {
     const hours = data.forecast.forecastday.flatMap(day => day.hour).slice(0, 24);
@@ -59,6 +59,7 @@ function createWeatherCards(data) {
 }
 function createWeeklyCards(data) {
     const days = data.forecast.forecastday;
+    weeklyEl.innerHTML = null;
     days.forEach(day => {
         const weeklyCardEl = document.createElement('div');
         weeklyCardEl.classList.add('weekly__day');
@@ -70,4 +71,27 @@ function createWeeklyCards(data) {
         weeklyEl.appendChild(weeklyCardEl);
     });
 }
+function createDetailsCards(data) {
+    detailsEl.innerHTML = null;
 
+    const detailsData = [
+        { label: 'Condition', value: data.current.condition.text, icon: data.current.condition.icon },
+        { label: 'Feels Like', value: `${data.current.feelslike_c}°C` },
+        { label: 'Humidity', value: `${data.current.humidity}%` },
+        { label: 'Wind Speed', value: `${data.current.wind_kph} kph` },
+        { label: 'Wind Direction', value: data.current.wind_dir },
+        { label: 'Pressure', value: `${data.current.pressure_mb} mb` },
+        { label: 'UV Index', value: data.current.uv },
+        { label: 'Visibility', value: `${data.current.vis_km} km` }
+    ];
+
+    detailsData.forEach(detail => {
+        const detailsCardEl = document.createElement('div');
+        detailsCardEl.classList.add('details__item');
+        detailsCardEl.innerHTML = `
+            ${detail.icon ? `<img src="${detail.icon}" alt="${detail.label}">` : ''}
+            <strong>${detail.label}:</strong> <span>${detail.value}</span>
+        `;
+        detailsEl.appendChild(detailsCardEl);
+    });
+}

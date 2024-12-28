@@ -24,7 +24,7 @@ body {
     text-align: center;
 }
 
-.weather__search {
+.weather-dashboard__search {
     background-color: #243860;
     border: none;
     color: #fff;
@@ -123,7 +123,10 @@ body {
 }
 
 .weather-dashboard__weekly {
+    max-width: 500px;
     padding-top: 20px;
+    width: 100%;
+    margin-left: -830px;
 }
 
 .weekly__day {
